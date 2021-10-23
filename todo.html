@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do Fime</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="container">
+    <form id="containerAddTask" class="row d-flex justify-content-evenly">
+      <div class="col-12 d-flex align-items-center justify-content-center my-3">
+        <img
+          class="todo-logo rounded"
+          src="https://store-images.s-microsoft.com/image/apps.65408.9007199266251942.0c0e7f8d-7313-47d7-83e8-c34fea5d6188.1d03a141-61d5-4864-b738-9e0bb6abab53?mode=scale&q=90&h=200&w=200&background=%23009000"
+          alt="todo-logo"
+        />
+        <div class="px-3">
+          <p class="text-center fs-1 my-0">To Do App</p>
+          <small class="my-0">Manuel De Jesús Calderon Arteaga - 1730346 - ITS</small>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <input
+          id = "task"
+          placeholder="Escribe una tarea"
+          class="form-control"
+          type="text"
+          required
+          minlength="3"
+        />
+      </div>
+
+      <div class="col-md-2 d-flex justify-content-center">
+        <button type="submit" formtarget="containerAddTask" class="w-100 btn-success btn">Agregar</button>
+      </div>
+    </form>
+
+    <div class="containerTasks shadowBackground my-4">
+      <div class="tableContent">
+        <table id="tasks-table" class="w-100 default"></table>
+      </div>
+      <div class="default-pagination" id="tasks-pagination"></div>
+    </div>
+
+    <div id="optionsTask" class="my-4 d-flex justify-content-end">
+    </div>
+  </body>
+</html>
