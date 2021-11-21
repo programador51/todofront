@@ -7,14 +7,19 @@ import { format } from "date-fns";
  * @param {number} idUser - Id of the user
  * @returns {object} Info of the tasks
  */
-export async function GetToDo(page,order,columnOrdering) {
+export async function GetToDo(page, order, columnOrdering) {
+
+    console.log(`${URL_API}task?pagina=${page}`);
+
     try {
-        const apiTasks = await fetch(`${URL_API}tareas?pagina=${page}`);
+        const apiTasks = await fetch(`${URL_API}task?pagina=${page}`);
+
+        console.log(apiTasks);
 
         let parsedTasks = await apiTasks.json();
 
         const tasks = parsedTasks.data.tasks.map(task => {
-            
+
             return {
                 ...task,
                 createdDate: format(new Date(task['createdDate']), "PPpp")
@@ -32,10 +37,10 @@ export async function GetToDo(page,order,columnOrdering) {
 
         console.log(error);
 
-        return{
-            tasks:[],
-            actualPage:0,
-            pages:0
+        return {
+            tasks: [],
+            actualPage: 0,
+            pages: 0
         }
     }
 }
@@ -46,15 +51,15 @@ export async function GetToDo(page,order,columnOrdering) {
  * @param {number} idUser - Id of the user who created the task
  * @returns {boolean}
  */
-export async function AddTask(task = 'Hello world',idUser = 1) {
+export async function AddTask(task = 'Hello world', idUser = 1) {
     try {
 
-        await fetch(`${URL_API}tareas`,{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+        await fetch(`${URL_API}task`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 task,
                 idUser
             })
@@ -72,15 +77,15 @@ export async function AddTask(task = 'Hello world',idUser = 1) {
  * @param {number} idTask - Id of the task to delete
  * @returns {boolean} True if task was deleted
  */
-export async function DeleteTask(idTask){
+export async function DeleteTask(idTask) {
     try {
-        
-        await fetch(`${URL_API}tareas`,{
-            method:'DELETE',
-            headers:{
-                'Content-Type':'application/json'
+
+        await fetch(`${URL_API}task`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 idTask
             })
         });
@@ -100,15 +105,15 @@ export async function DeleteTask(idTask){
  * @param {boolean} status - New status of the task
  * @returns {boolean} True if task was updated
  */
-export async function CompleteTask(idTask,status=1){
+export async function CompleteTask(idTask, status = 1) {
     try {
-        
-        await fetch(`${URL_API}tareas/${idTask}/actualizar-estado`,{
-            method:'PUT',
-            headers:{
-                'Content-Type':'application/json'
+
+        await fetch(`${URL_API}task/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 idTask,
                 status
             })
@@ -129,15 +134,15 @@ export async function CompleteTask(idTask,status=1){
  * @param {string} content - New content of the task description
  * @returns {boolean} True if was updated
  */
-export async function UpdateTask(idTask,content){
+export async function UpdateTask(idTask, content) {
     try {
-        
-        await fetch(`${URL_API}tareas/${idTask}/contenido`,{
-            method:'PUT',
-            headers:{
-                'Content-Type':'application/json'
+
+        await fetch(`${URL_API}task`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 idTask,
                 content
             })
@@ -146,7 +151,7 @@ export async function UpdateTask(idTask,content){
         return true;
 
     } catch (error) {
-        
+
         console.log(error);
         return false;
 

@@ -11,7 +11,7 @@ let TableToDo;
 
 async function loadToDo() {
     // page,order,columnOrdering,additionalQuery
-    const tasks = await GetToDo(1,'','');
+    const tasks = await GetToDo(1, '', '');
 
     configurationUsers.pages = tasks.pages;
     configurationUsers.actualPage = tasks.actualPage;
@@ -48,7 +48,7 @@ export function showOptions() {
 
     const containerButtons = document.getElementById(`optionsTask`);
 
-    const btnCheckTask = TableToDo.infoRow.boolCompleted === 1 ? 'Deshacer' : 'Completar'
+    const btnCheckTask = TableToDo.infoRow.completed === true ? 'Deshacer' : 'Completar'
 
     const options = `      
     <div>
@@ -95,17 +95,17 @@ export function showOptions() {
     completeTask();
     updateTask();
 
-    function updateTask(){
-        document.getElementById('updateTaskForm').addEventListener('submit',async(e)=>{
+    function updateTask() {
+        document.getElementById('updateTaskForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const task = document.getElementById('taskEdition').value;
-            
-            toastr.info('Espere mientras se actualiza la tarea','Actualizando...');
 
-            const wasUpdated = await UpdateTask(TableToDo.infoRow.id,task);
+            toastr.info('Espere mientras se actualiza la tarea', 'Actualizando...');
 
-            if(wasUpdated){
+            const wasUpdated = await UpdateTask(TableToDo.infoRow.id, task);
+
+            if (wasUpdated) {
                 document.getElementById('closeEdit').click();
                 Success('Tarea actualizada');
                 loadToDo();
@@ -116,9 +116,9 @@ export function showOptions() {
     }
 
     function deleteTask() {
-        document.getElementById('deleteTask').addEventListener('click', async() => {
+        document.getElementById('deleteTask').addEventListener('click', async () => {
             YesNoAlert('¿Deseas eliminar la tarea?', async () => {
-                toastr.info('Espere mientras se borra la tarea','Borrando...');
+                toastr.info('Espere mientras se borra la tarea', 'Borrando...');
                 const wasDeleted = await DeleteTask(TableToDo.infoRow.id);
                 if (wasDeleted) {
                     Success('Tarea borrada');
@@ -129,19 +129,21 @@ export function showOptions() {
         });
     }
 
-    function completeTask(){
-        document.getElementById('completeTask').addEventListener('click',()=>{
+    function completeTask() {
+        document.getElementById('completeTask').addEventListener('click', () => {
 
-            const newStatus = TableToDo.infoRow.boolCompleted === 1 ? 0 : 1;
-            const message = TableToDo.infoRow.boolCompleted === 1 ? '¿Deseas deshacer la tarea?' : '¿Deseas completar la tarea?' ;
+            const statusCompleted = TableToDo.infoRow.completed;
 
-            YesNoAlert(message,async()=>{
+            const newStatus = (statusCompleted === 1 || statusCompleted === true) ? 0 : 1;
+            const message = (statusCompleted === 1 || statusCompleted === true) ? '¿Deseas deshacer la tarea?' : '¿Deseas completar la tarea?';
 
-                toastr.info('Espere mientras se actualiza la tarea','Actulizando...');
-                
-                const wasUpdated = await CompleteTask(TableToDo.infoRow.id,newStatus);
+            YesNoAlert(message, async () => {
 
-                if(wasUpdated){
+                toastr.info('Espere mientras se actualiza la tarea', 'Actulizando...');
+
+                const wasUpdated = await CompleteTask(TableToDo.infoRow.id, newStatus);
+
+                if (wasUpdated) {
                     Success('Tarea checada');
                     loadToDo()
                     hideButtons();
@@ -149,8 +151,8 @@ export function showOptions() {
             });
         });
     }
-    
-    function hideButtons(){
+
+    function hideButtons() {
         containerButtons.innerHTML = '';
     }
 }
@@ -158,11 +160,11 @@ export function showOptions() {
 (function () {
 
     addEvent();
-    localStorage.setItem('idUser',1);
+    localStorage.setItem('idUser', 1);
 
     loadToDo();
-    toastr.info('Organiza tus actividades con este gran "To Do" ;)','Bienvenido',{
-        progressBar:true,
-        timeOut:15000
+    toastr.info('Organiza tus actividades con este gran "To Do" ;)', 'Bienvenido', {
+        progressBar: true,
+        timeOut: 15000
     });
 })()
